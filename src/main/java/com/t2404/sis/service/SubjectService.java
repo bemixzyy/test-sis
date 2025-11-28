@@ -13,9 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SubjectService {
 
-    private final SubjectRepository subjectRepository; // ĐÚNG TÊN + ĐÚNG KIỂU
+    private final SubjectRepository subjectRepository;
 
-    // ĐÚNG: Trả về List<Subject>, không phải Student!!!
+    // ĐÚNG: Trả về List<Subject>, không phải Student
     public List<Subject> findAll() {
         return subjectRepository.findAll();
     }
@@ -24,7 +24,6 @@ public class SubjectService {
         return subjectRepository.findById(id).orElse(null);
     }
 
-    // BẮT BUỘC có @Transactional để count() và save() hoạt động đúng
     @PostConstruct
     @Transactional
     public void initDefaults() {

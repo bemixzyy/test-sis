@@ -33,7 +33,7 @@ public class StudentScore {
     @Column(precision = 5, scale = 2)
     private BigDecimal score2;
 
-    // ==================== ĐIỂM TRUNG BÌNH (làm tròn 2 chữ số) ====================
+    // ĐIỂM TRUNG BÌNH (làm tròn 2 chữ số)
     @Transient
     public BigDecimal getAverageScore() {
         if (score1 == null || score2 == null) {
@@ -44,7 +44,7 @@ public class StudentScore {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-    // ==================== XẾP LOẠI CHỮ A/B/D/F
+    // XẾP LOẠI CHỮ A/B/D/F
     @Transient
     public String getGradeLetter() {
         double avg = getAverageScore().doubleValue();
@@ -54,7 +54,6 @@ public class StudentScore {
         return "F";
     }
 
-    // ==================== MÀU BADGE CHO BOOTSTRAP ====================
     @Transient
     public String getBadgeClass() {
         return switch (getGradeLetter()) {
@@ -65,7 +64,6 @@ public class StudentScore {
         };
     }
 
-    // Các getter/setter Lombok đã tự sinh, nhưng nếu IDE kêu thì để lại cho chắc
     public Long getStudentScoreId() { return studentScoreId; }
     public void setStudentScoreId(Long studentScoreId) { this.studentScoreId = studentScoreId; }
 

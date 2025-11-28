@@ -34,8 +34,8 @@ public class ScoreController {
     public String createSubmit(
             @RequestParam Long studentId,
             @RequestParam Long subjectId,
-            @RequestParam BigDecimal score1,   // ĐÃ SỬA: nhận thẳng BigDecimal
-            @RequestParam BigDecimal score2,   // ĐÃ SỬA
+            @RequestParam BigDecimal score1,
+            @RequestParam BigDecimal score2,
             RedirectAttributes ra) {
 
         Student student = studentService.findById(studentId);
@@ -70,7 +70,7 @@ public class ScoreController {
 
         scoreService.save(score);
 
-        // Thông báo đẹp
+        // Thông báo
         ra.addFlashAttribute("successMessage",
                 student.getFullName() + " – " + subject.getSubjectName() +
                         " → " + score.getAverageScore() + " (" + score.getGradeLetter() + ")");

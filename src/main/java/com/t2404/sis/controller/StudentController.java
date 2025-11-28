@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/students")
-@RequiredArgsConstructor // Lombok tự tạo constructor
+@RequiredArgsConstructor
 public class StudentController {
 
     private final StudentService studentService;
@@ -51,14 +51,14 @@ public class StudentController {
 
         studentService.save(student);
 
-        // Flash message (bonus điểm UX)
+        // Flash message
         redirectAttributes.addFlashAttribute("successMessage",
                 "Thêm sinh viên \"" + student.getFullName() + "\" thành công!");
 
         return "redirect:/students/list";
     }
 
-    // Bonus: Xóa sinh viên (nếu muốn mở rộng)
+    // Bonus: Xóa sinh viên
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         studentService.deleteById(id);
