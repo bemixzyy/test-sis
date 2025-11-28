@@ -17,7 +17,7 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
-    private final SubjectService subjectService; // có thể dùng sau này (edit, delete...)
+    private final SubjectService subjectService; // (edit, delete...)
 
     // Khi truy cập /students → chuyển thẳng về danh sách
     @GetMapping
@@ -28,7 +28,7 @@ public class StudentController {
     // Trang chính: Danh sách sinh viên + điểm + Grade
     @GetMapping("/list")
     public String list(Model model) {
-        List<Student> students = studentService.findAllWithScores(); // QUAN TRỌNG: load kèm scores
+        List<Student> students = studentService.findAllWithScores();
         model.addAttribute("students", students);
         return "students/list"; // → templates/students/list.html
     }
@@ -36,7 +36,7 @@ public class StudentController {
     // Hiển thị form thêm sinh viên mới
     @GetMapping("/create")
     public String createForm(Model model) {
-        // Nếu model chưa có "student" → tạo mới để form bind
+        // Nếu chưa có student → tạo mới để form bind
         if (!model.containsAttribute("student")) {
             model.addAttribute("student", new Student());
         }
@@ -51,14 +51,12 @@ public class StudentController {
 
         studentService.save(student);
 
-        // Flash message
         redirectAttributes.addFlashAttribute("successMessage",
                 "Thêm sinh viên \"" + student.getFullName() + "\" thành công!");
 
         return "redirect:/students/list";
     }
 
-    // Bonus: Xóa sinh viên
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         studentService.deleteById(id);
