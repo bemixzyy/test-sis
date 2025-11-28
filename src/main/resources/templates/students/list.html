@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Information System</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            background-color: #2f4f2f;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+        }
+        .subheader {
+            background-color: #f0f0f0;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .btn {
+            background-color: #1c3f1c;
+            color: white;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #0d260d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #2f4f2f;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+        }
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e6f3e6;
+        }
+        .grade-A { color: #006400; font-weight: bold; }
+        .grade-B { color: #006400; font-weight: bold; }
+        .grade-D { color: #8B8000; font-weight: bold; }
+        .grade-F { color: #8B0000; font-weight: bold; }
+        .edit-icon {
+            color: #0066cc;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 50px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">Student Information System</div>
+<div class="subheader">Student Information</div>
+
+<div class="buttons">
+    <a href="/students/create" class="btn">+ Student</a>
+    <a href="/scores/create" class="btn">+ Score</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Student Id</th>
+        <th>Student Name</th>
+        <th>Subject Name</th>
+        <th>Score 1</th>
+        <th>Score 2</th>
+        <th>Credit</th>
+        <th>Grade</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Trường hợp không có dữ liệu -->
+    <tr th:if="${students == null or #lists.isEmpty(students)}">
+        <td colspan="9" class="no-data">Chưa có sinh viên nào</td>
+    </tr>
+
+    <!-- Duyệt từng điểm của từng sinh viên -->
+    <th:block th:each="student : ${students}">
+        <th:block th:each="score : ${student.scores}">
+            <tr>
+                <td th:text="${score.studentScoreId}"></td>
+                <td th:text="${student.studentCode}"></td>
+                <td th:text="${student.fullName}"></td>
+                <td th:text="${score.subject.subjectName}"></td>
+                <td th:text="${score.score1 != null ? score.score1 : '-'}"></td>
+                <td th:text="${score.score2 != null ? score.score2 : '-'}"></td>
+                <td th:text="${score.subject.credit}"></td>
+                <td th:class="'grade-' + ${score.gradeLetter}"
+                    th:text="${score.gradeLetter}">A</td>
+                <td><span class="edit-icon">Edit</span></td>
+            </tr>
+        </th:block>
+
+        <!-- Nếu sinh viên này chưa có điểm nào -->
+        <tr th:if="${student.scores == null or #lists.isEmpty(student.scores)}">
+            <td colspan="9" class="no-data">
+                Sinh viên <strong th:text="${student.fullName}"></strong> chưa có điểm môn nào
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+</body>
+</html>
